@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>해양 사이버보안사고 대시보드</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>해양 사이버보안사고 대시보드</h1>
+  <p>자산유형별 위협 가시화 · IMO/IACS 규제 연계</p>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="layout">
+  <aside>
+    <h2>자산 유형</h2>
+    <div class="filter-group" id="filter-asset"></div>
+    <h2>피해 국가</h2>
+    <div class="filter-group" id="filter-country"></div>
+    <h2>심각도</h2>
+    <div class="filter-group" id="filter-severity"></div>
+    <button class="reset-btn" onclick="resetFilters()">필터 초기화</button>
+  </aside>
+
+  <main>
+    <div class="list-head">
+      <span id="list-count"></span>
+    </div>
+    <div id="incident-list"><div class="loading">데이터를 불러오는 중...</div></div>
+  </main>
+
+  <div class="detail" id="detail">
+    <div class="empty">사고를 선택하면<br>상세 정보와 관련 규제가<br>여기에 표시됩니다</div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
