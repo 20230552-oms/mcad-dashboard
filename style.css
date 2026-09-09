@@ -14,18 +14,29 @@
 html, body { margin:0; height:100%; }
 body{
   background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(46,196,182,0.07), transparent),
+    radial-gradient(ellipse 700px 400px at 100% 0%, rgba(46,196,182,0.05), transparent);
   color: var(--text);
-  font-family: -apple-system, "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+  font-family: "Pretendard", -apple-system, "Noto Sans KR", "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+* { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+::-webkit-scrollbar{ width:8px; height:8px; }
+::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover{ background: var(--accent); }
+
 header{
   display:flex; align-items:baseline; gap:16px;
-  padding: 20px 28px 16px;
+  padding: 22px 28px 18px;
   border-bottom: 1px solid var(--line);
 }
-header h1{ font-size: 19px; font-weight: 600; margin:0; letter-spacing: 0.2px; }
+header h1{
+  font-size: 19px; font-weight: 700; margin:0; letter-spacing: 0.1px;
+}
+header h1::before{ content: "⚓  "; opacity:0.7; }
 header p{ margin:0; color: var(--text-dim); font-size: 13px; }
 
 .stats{
@@ -54,14 +65,16 @@ aside h2:first-child{ margin-top:0; }
   padding: 7px 10px; border-radius:6px; font-size: 13px; cursor:pointer;
   border: 1px solid transparent; color: var(--text-dim);
 }
-.chip:hover{ background: var(--panel); }
-.chip.active{ background: var(--panel-2); color: var(--text); border-color: var(--line); }
+.chip{ transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
+.chip:hover{ background: var(--panel); transform: translateX(2px); }
+.chip.active{ background: var(--panel-2); color: var(--text); border-color: var(--accent); }
 .chip .count{ font-size: 11px; color: var(--text-dim); }
 .reset-btn{
   margin-top: 16px; width:100%; padding: 8px; background:none; color: var(--accent);
   border: 1px solid var(--line); border-radius:6px; font-size:12px; cursor:pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
-.reset-btn:hover{ border-color: var(--accent); }
+.reset-btn:hover{ border-color: var(--accent); background: rgba(46,196,182,0.08); }
 
 main{ flex:1; overflow-y:auto; padding: 18px 24px; }
 .list-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
@@ -72,8 +85,9 @@ main{ flex:1; overflow-y:auto; padding: 18px 24px; }
   align-items:center; gap: 16px;
   padding: 12px 14px; margin-bottom:6px; border-radius:8px;
   background: var(--panel); cursor:pointer; border:1px solid transparent;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
 }
-.incident:hover{ border-color: var(--line); }
+.incident:hover{ border-color: var(--line); transform: translateX(2px); }
 .incident.selected{ border-color: var(--accent); background: var(--panel-2); }
 .sev-dot{ width:4px; height:28px; border-radius:2px; }
 .incident .asset{ font-size: 11px; color: var(--text-dim); }
@@ -102,3 +116,26 @@ main{ flex:1; overflow-y:auto; padding: 18px 24px; }
 
 .loading, .error{ padding: 40px; text-align:center; color: var(--text-dim); }
 .error{ color: var(--sev-high); }
+
+/* 자산유형 x 심각도 히트맵 */
+.heatmap-block{ margin-bottom: 22px; }
+.heatmap-block h2{ font-size: 12px; color: var(--text-dim); font-weight:600; margin: 0 0 10px; }
+.heat-row{ display:flex; align-items:center; gap:10px; margin-bottom: 6px; }
+.heat-row .heat-label{ width:170px; flex-shrink:0; font-size:12.5px; color: var(--text-dim); text-align:right; }
+.heat-cells{ display:flex; gap:4px; }
+.heat-cell{
+  width:34px; height:22px; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; color: var(--bg); font-weight:600;
+  cursor:pointer; transition: transform 0.1s ease, outline 0.1s ease;
+}
+.heat-cell:hover{ transform: scale(1.08); outline: 1px solid var(--text); }
+.heat-cell.empty{ background: var(--panel); color: transparent; cursor:default; }
+.heat-cell.empty:hover{ transform:none; outline:none; }
+.heat-legend{ display:flex; gap:14px; margin-top:10px; margin-left:180px; font-size:11px; color: var(--text-dim); }
+.heat-legend span{ display:flex; align-items:center; gap:5px; }
+.heat-legend i{ width:10px; height:10px; border-radius:2px; display:inline-block; }
+
+/* 상세 패널 등장 애니메이션 */
+.detail > *{ animation: fadeIn 0.2s ease; }
+@keyframes fadeIn{ from{ opacity:0; transform: translateY(4px); } to{ opacity:1; transform: translateY(0); } }

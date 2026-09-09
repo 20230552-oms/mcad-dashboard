@@ -6,6 +6,7 @@
 // ---------------------------------------------------------
 
 const SEVERITY_LABEL = { high:"높음", medium:"중간", low:"낮음" };
+const SEVERITY_VAR = { high:"high", medium:"med", low:"low" };
 
 let INCIDENTS = [];
 let filters = { asset:null, country:null, severity:null };
@@ -89,6 +90,37 @@ function renderStats(){
   `;
 }
 
+function renderHeatmap(){
+  const el = document.getElementById('heatmap');
+  const severities = ['low','medium','high'];
+  const assets = [...new Set(INCIDENTS.map(i => i.asset))];
+  const counts = {};
+  assets.forEach(a => { counts[a] = {low:0, medium:0, high:0}; });
+  INCIDENTS.forEach(i => { counts[i.asset][i.severity]++; });
+
+  el.innerHTML = assets.map(asset => `
+    <div class="heat-row">
+      <div class="heat-label">${asset}</div>
+      <div class="heat-cells">
+        ${severities.map(sev => {
+          const n = counts[asset][sev];
+          const bg = n === 0 ? null : `var(--sev-${SEVERITY_VAR[sev]})`;
+          return `<div class="heat-cell${n===0?' empty':''}" style="${bg?`background:${bg}`:''}"
+                       title="${asset} · ${SEVERITY_LABEL[sev]}: ${n}건"
+                       onclick="${n>0?`filters.asset='${asset}';filters.severity='${sev}';renderAll();`:''}">${n>0?n:''}</div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('') + `
+    <div class="heat-legend">
+      <span><i style="background:var(--sev-low)"></i>낮음</span>
+      <span><i style="background:var(--sev-med)"></i>중간</span>
+      <span><i style="background:var(--sev-high)"></i>높음</span>
+      <span style="color:var(--text-dim)">(칸을 클릭하면 필터링됩니다)</span>
+    </div>
+  `;
+}
+
 function renderList(){
   const list = filteredIncidents().sort((a,b) => b.date.localeCompare(a.date));
   document.getElementById('list-count').textContent = `${list.length}건 표시 중`;
@@ -98,7 +130,7 @@ function renderList(){
     const row = document.createElement('div');
     row.className = 'incident' + (i.id === selectedId ? ' selected' : '');
     row.innerHTML = `
-      <div class="sev-dot" style="background:var(--sev-${i.severity})"></div>
+      <div class="sev-dot" style="background:var(--sev-${SEVERITY_VAR[i.severity]})"></div>
       <div class="asset">${i.asset}</div>
       <div class="title">${i.title}</div>
       <div class="id">${i.id}</div>
@@ -119,7 +151,7 @@ function renderDetail(){
     <div class="meta-row">
       <span class="tag">${i.asset}</span>
       <span class="tag">${i.country}</span>
-      <span class="tag" style="color:var(--sev-${i.severity})">심각도: ${SEVERITY_LABEL[i.severity]}</span>
+      <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">심각도: ${SEVERITY_LABEL[i.severity]}</span>
       <span class="tag">${i.date}</span>
     </div>
     <p class="desc">${i.desc}</p>
@@ -138,6 +170,7 @@ function renderDetail(){
 function renderAll(){
   renderFilters();
   renderStats();
+  renderHeatmap();
   renderList();
   renderDetail();
 }
