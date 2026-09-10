@@ -8,8 +8,14 @@
 const SEVERITY_LABEL = { high:"높음", medium:"중간", low:"낮음" };
 const SEVERITY_VAR = { high:"high", medium:"med", low:"low" };
 
+function credibilityTier(score){
+  if(score >= 85) return { label:"높음", css:"cred-high" };
+  if(score >= 65) return { label:"중간", css:"cred-med" };
+  return { label:"검증 필요", css:"cred-low" };
+}
+
 let INCIDENTS = [];
-let filters = { asset:null, country:null, severity:null };
+let filters = { asset:null, country:null, severity:null, attack_type:null };
 let selectedId = null;
 
 async function loadData(){
@@ -33,6 +39,7 @@ function uniqueCounts(key){
 
 function renderFilters(){
   renderFilterGroup('filter-asset', 'asset', uniqueCounts('asset'));
+  renderFilterGroup('filter-attack', 'attack_type', uniqueCounts('attack_type'));
   renderFilterGroup('filter-country', 'country', uniqueCounts('country'));
   renderFilterGroup('filter-severity', 'severity', uniqueCounts('severity'), SEVERITY_LABEL);
 }
@@ -53,7 +60,7 @@ function renderFilterGroup(elId, key, counts, labelMap){
 }
 
 function resetFilters(){
-  filters = { asset:null, country:null, severity:null };
+  filters = { asset:null, country:null, severity:null, attack_type:null };
   renderAll();
 }
 
@@ -61,7 +68,8 @@ function filteredIncidents(){
   return INCIDENTS.filter(i =>
     (!filters.asset || i.asset === filters.asset) &&
     (!filters.country || i.country === filters.country) &&
-    (!filters.severity || i.severity === filters.severity)
+    (!filters.severity || i.severity === filters.severity) &&
+    (!filters.attack_type || i.attack_type === filters.attack_type)
   );
 }
 
@@ -145,16 +153,29 @@ function renderDetail(){
   const el = document.getElementById('detail');
   const i = INCIDENTS.find(x => x.id === selectedId);
   if(!i){ el.innerHTML = '<div class="empty">사고를 선택하면<br>상세 정보와 관련 규제가<br>여기에 표시됩니다</div>'; return; }
+  const cred = credibilityTier(i.credibility_score);
   el.innerHTML = `
     <div class="id">${i.id}</div>
     <h3>${i.title}</h3>
     <div class="meta-row">
       <span class="tag">${i.asset}</span>
+      <span class="tag">${i.attack_type}</span>
       <span class="tag">${i.country}</span>
       <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">심각도: ${SEVERITY_LABEL[i.severity]}</span>
       <span class="tag">${i.date}</span>
     </div>
     <p class="desc">${i.desc}</p>
+    <div class="fact-grid">
+      <div class="fact-label">피해 규모</div><div class="fact-value">${i.damage_scale}</div>
+      <div class="fact-label">신뢰도</div>
+      <div class="fact-value">
+        <span class="cred-badge ${cred.css}">${i.credibility_score}점 · ${cred.label}</span>
+      </div>
+      <div class="fact-label">원문 언어</div>
+      <div class="fact-value">${i.origin_language}${i.translated ? ' <span class="translated-tag">번역됨</span>' : ''}</div>
+      <div class="fact-label">출처</div>
+      <div class="fact-value">${i.source.url ? `<a href="${i.source.url}" target="_blank" rel="noopener">${i.source.name}</a>` : i.source.name}</div>
+    </div>
     <div class="reg-block">
       <h4>관련 IMO / IACS 통제 항목</h4>
       ${i.regs.map(r => `

@@ -1,6 +1,9 @@
 [
   { "id":"MCAD-2023-014", "title":"선박 ECDIS 위치정보 스푸핑", "date":"2023-04-02",
     "asset":"항해장비(ECDIS/GPS)", "country":"우크라이나 인근 해역", "severity":"high",
+    "attack_type":"GPS/AIS 스푸핑", "damage_scale":"다수 선박 항로 이탈 유도",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":95, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"흑해 해역에서 다수 선박의 GPS 신호가 조작되어 실제와 다른 위치가 표시된 사례. 항로 이탈 및 충돌 위험을 유발.",
     "regs":[
       {"code":"IMO MSC.428(98)", "desc":"해상 사이버리스크 관리를 안전관리시스템(SMS)에 통합"},
@@ -8,6 +11,9 @@
     ]},
   { "id":"MCAD-2023-021", "title":"항만 터미널 운영시스템(TOS) 랜섬웨어", "date":"2023-06-15",
     "asset":"항만 인프라(TOS)", "country":"대한민국", "severity":"high",
+    "attack_type":"랜섬웨어", "damage_scale":"하역 작업 약 18시간 중단",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":92, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"컨테이너 터미널 운영시스템이 랜섬웨어에 감염되어 하역 작업이 약 18시간 중단됨.",
     "regs":[
       {"code":"IMO MSC-FAL.1/Circ.3", "desc":"해상 사이버리스크 관리 가이드라인 — 항만 인터페이스 시스템 포함"},
@@ -15,12 +21,18 @@
     ]},
   { "id":"MCAD-2022-098", "title":"선박 위성통신(VSAT) 단말 침해", "date":"2022-11-08",
     "asset":"통신장비(VSAT)", "country":"파나마", "severity":"medium",
+    "attack_type":"무단 원격접근", "damage_scale":"단말 스캐닝 피해(경미)",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":88, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"기본 관리자 계정을 사용하던 VSAT 단말이 스캐닝 및 원격 접근 시도를 받음.",
     "regs":[
       {"code":"IACS UR E27", "desc":"선박 시스템 및 장비의 사이버 보안 요건 — 원격접속 통제"}
     ]},
   { "id":"MCAD-2022-071", "title":"엔진룸 제어시스템(OT) 악성코드 감염", "date":"2022-08-22",
     "asset":"선박 OT(엔진제어)", "country":"싱가포르", "severity":"high",
+    "attack_type":"악성코드 감염", "damage_scale":"센서 표시 오류 발생",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":93, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"USB 매체를 통해 엔진 모니터링 PC에 악성코드가 유입, 일부 센서 데이터 표시 오류 발생.",
     "regs":[
       {"code":"IACS UR E26", "desc":"선박 사이버 복원력 요건 — OT 네트워크 분리 및 이동식 매체 통제"},
@@ -28,12 +40,18 @@
     ]},
   { "id":"MCAD-2021-053", "title":"해운사 IT 서버 데이터 유출", "date":"2021-09-30",
     "asset":"IT 시스템(사내망)", "country":"일본", "severity":"medium",
+    "attack_type":"피싱/자격증명 탈취", "damage_scale":"화물예약 DB 일부 유출",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":85, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"피싱 이메일을 통한 자격증명 탈취 이후 화물 예약 데이터베이스 일부가 유출됨.",
     "regs":[
       {"code":"IMO MSC-FAL.1/Circ.3", "desc":"해상 사이버리스크 관리 가이드라인 — IT 시스템 리스크 평가"}
     ]},
   { "id":"MCAD-2021-040", "title":"항만 크레인 제어시스템 오작동 유발 침해", "date":"2021-05-11",
     "asset":"항만 인프라(크레인 제어)", "country":"네덜란드", "severity":"medium",
+    "attack_type":"무단 원격접근", "damage_scale":"크레인 이상명령 1건 발생",
+    "origin_language":"네덜란드어", "translated":true,
+    "credibility_score":90, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"원격 유지보수 접속 경로를 통한 미승인 접근으로 크레인 제어 소프트웨어에 이상 명령이 전달됨.",
     "regs":[
       {"code":"ISPS Code Part A", "desc":"항만시설 보안계획(PFSP)상 사이버 위협 대응 요건"},
@@ -41,14 +59,38 @@
     ]},
   { "id":"MCAD-2020-019", "title":"선사 이메일 시스템 랜섬웨어 확산", "date":"2020-06-27",
     "asset":"IT 시스템(사내망)", "country":"덴마크", "severity":"high",
+    "attack_type":"랜섬웨어", "damage_scale":"전사 시스템 수일간 수기 운영",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":97, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"전사 이메일 및 예약 시스템이 랜섬웨어에 감염되어 수 일간 수기 운영으로 전환.",
     "regs":[
       {"code":"IMO MSC.428(98)", "desc":"해상 사이버리스크 관리를 안전관리시스템(SMS)에 통합"}
     ]},
   { "id":"MCAD-2020-003", "title":"선박 자동식별장치(AIS) 신호 조작", "date":"2020-02-14",
     "asset":"항해장비(AIS)", "country":"이란 인근 해역", "severity":"low",
+    "attack_type":"GPS/AIS 스푸핑", "damage_scale":"표시정보 조작(직접 피해 미미)",
+    "origin_language":"영어", "translated":false,
+    "credibility_score":80, "source":{"name":"MCAD 데이터베이스", "url":"https://www.nhlstenden.com/en/maritime-cyber-attack-database"},
     "desc":"AIS 신호가 실제와 다른 선박 정보로 송출된 정황이 포착됨. 항해 안전에 직접 영향은 미미.",
     "regs":[
       {"code":"IACS UR E26", "desc":"선박 사이버 복원력 요건 — 항해시스템 보호"}
+    ]},
+  { "id":"ASIA-2024-001", "title":"베트남 항만 하역시스템 무단접근 시도", "date":"2024-03-10",
+    "asset":"항만 인프라(하역시스템)", "country":"베트남", "severity":"medium",
+    "attack_type":"무단 원격접근", "damage_scale":"하역 지연 약 4시간(잠정)",
+    "origin_language":"베트남어", "translated":true,
+    "credibility_score":68, "source":{"name":"현지 매체 보도(원문 베트남어, 교차검증 진행중)", "url":null},
+    "desc":"베트남 현지 항만 하역 시스템에 대한 미승인 접근 시도가 보고됨. 팀 자체 수집 데이터로, 2차 출처 교차검증이 아직 완료되지 않아 신뢰도 점수가 상대적으로 낮게 표기됨.",
+    "regs":[
+      {"code":"IACS UR E27", "desc":"선박 시스템 및 장비의 사이버 보안 요건 — 원격접속 통제"}
+    ]},
+  { "id":"ASIA-2024-002", "title":"인도네시아 선사 화물예약시스템 랜섬웨어 의심 사례", "date":"2024-07-22",
+    "asset":"IT 시스템(사내망)", "country":"인도네시아", "severity":"medium",
+    "attack_type":"랜섬웨어", "damage_scale":"화물예약 지연(정확한 규모 미확인)",
+    "origin_language":"인도네시아어", "translated":true,
+    "credibility_score":54, "source":{"name":"현지 SNS 제보(1차 미검증)", "url":null},
+    "desc":"인도네시아 선사의 화물예약시스템에서 랜섬웨어 감염이 의심된다는 현지 제보. AI 1차 검증에서 낮은 신뢰도로 분류되어 추가 확인이 필요한 상태.",
+    "regs":[
+      {"code":"IMO MSC-FAL.1/Circ.3", "desc":"해상 사이버리스크 관리 가이드라인 — IT 시스템 리스크 평가"}
     ]}
 ]
