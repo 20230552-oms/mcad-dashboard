@@ -12,18 +12,22 @@
 <body>
 
 <header>
-  <h1>해양 사이버보안사고 대시보드</h1>
-  <p>통계 — 국가별 · 공격유형별 · 연도별 추이</p>
+  <h1 data-i18n="site_title"></h1>
+  <p data-i18n="stats_subtitle"></p>
   <nav class="topnav">
-    <a href="index.html">대시보드</a>
-    <a href="stats.html" class="active">통계</a>
+    <a href="index.html" data-i18n="nav_dashboard"></a>
+    <a href="stats.html" class="active" data-i18n="nav_stats"></a>
+    <span class="lang-toggle">
+      <button data-lang="ko">KO</button>
+      <button data-lang="en">EN</button>
+    </span>
   </nav>
 </header>
 
 <main class="stats-page">
   <section class="panel">
     <div class="panel-head">
-      <h2>연도별 사고 추이</h2>
+      <h2 data-i18n="ts_title"></h2>
       <span class="panel-note" id="total-count"></span>
     </div>
     <div id="timeseries"></div>
@@ -31,23 +35,22 @@
 
   <div class="panel-cols">
     <section class="panel">
-      <div class="panel-head"><h2>국가별 사고 건수</h2></div>
+      <div class="panel-head"><h2 data-i18n="country_title"></h2></div>
       <div id="country-chart"></div>
       <table class="data-table" id="country-table"></table>
     </section>
 
     <section class="panel">
-      <div class="panel-head"><h2>공격 유형별 사고 건수</h2></div>
+      <div class="panel-head"><h2 data-i18n="attack_title"></h2></div>
       <div id="attack-chart"></div>
       <table class="data-table" id="attack-table"></table>
     </section>
   </div>
 </main>
 
-<footer>
-  데이터 출처: <a href="https://www.nhlstenden.com/en/maritime-cyber-attack-database" target="_blank" rel="noopener">NHL Stenden — Maritime Cyber Attack Database (MCAD)</a> 및 자체 수집 데이터. 연구 목적으로 정규화·가공되었습니다.
-</footer>
+<footer id="site-footer"></footer>
 
+<script src="i18n.js"></script>
 <script src="stats.js"></script>
 </body>
 </html>

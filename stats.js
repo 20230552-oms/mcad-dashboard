@@ -7,7 +7,7 @@ async function loadData(){
     INCIDENTS = await res.json();
     renderAll();
   }catch(err){
-    document.querySelector('main').innerHTML = `<div class="error">데이터를 불러오는 중 오류가 발생했습니다: ${err.message}</div>`;
+    document.querySelector('main').innerHTML = `<div class="error">${t('error', err.message)}</div>`;
   }
 }
 
@@ -29,7 +29,7 @@ function renderBarChart(containerId, tableId, entries, colLabel){
 
   const table = document.getElementById(tableId);
   table.innerHTML = `
-    <thead><tr><th>${colLabel}</th><th>건수</th><th>비중</th></tr></thead>
+    <thead><tr><th>${colLabel}</th><th>${t('th_count')}</th><th>${t('th_share')}</th></tr></thead>
     <tbody>
       ${entries.map(([name, n]) => `
         <tr>
@@ -81,13 +81,13 @@ function renderTimeSeries(){
       ${dots}
     </svg>
   `;
-  document.getElementById('total-count').textContent = `전체 ${INCIDENTS.length}건 기준`;
+  document.getElementById('total-count').textContent = t('total_count', INCIDENTS.length);
 }
 
 function renderAll(){
   renderTimeSeries();
-  renderBarChart('country-chart', 'country-table', countBy('country'), '국가');
-  renderBarChart('attack-chart', 'attack-table', countBy('attack_type'), '공격 유형');
+  renderBarChart('country-chart', 'country-table', countBy('country'), t('th_country'));
+  renderBarChart('attack-chart', 'attack-table', countBy('attack_type'), t('th_attack'));
 }
 
 document.addEventListener('DOMContentLoaded', loadData);

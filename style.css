@@ -45,6 +45,17 @@ header p{ margin:0; color: var(--text-dim); font-size: 13px; }
 }
 .topnav a:hover{ background: var(--panel); color: var(--text); }
 .topnav a.active{ background: var(--panel-2); color: var(--accent); }
+.lang-toggle{
+  display:flex; gap:2px; margin-left:10px; padding-left:12px;
+  border-left: 1px solid var(--line);
+}
+.lang-toggle button{
+  background:none; border: 1px solid var(--line); color: var(--text-dim);
+  font-size: 11px; padding: 5px 9px; border-radius: 5px; cursor:pointer;
+  font-family: inherit; transition: border-color 0.15s ease, color 0.15s ease;
+}
+.lang-toggle button:hover{ color: var(--text); border-color: var(--text-dim); }
+.lang-toggle button.active{ background: var(--panel-2); color: var(--accent); border-color: var(--accent); }
 
 .stats{
   display:flex; gap:0; padding: 14px 28px; border-bottom: 1px solid var(--line);

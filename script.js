@@ -5,13 +5,13 @@
 // 자동으로 새 내용을 반영합니다.
 // ---------------------------------------------------------
 
-const SEVERITY_LABEL = { high:"높음", medium:"중간", low:"낮음" };
 const SEVERITY_VAR = { high:"high", medium:"med", low:"low" };
+function sevLabel(key){ return t('sev_' + key); }
 
 function credibilityTier(score){
-  if(score >= 85) return { label:"높음", css:"cred-high" };
-  if(score >= 65) return { label:"중간", css:"cred-med" };
-  return { label:"검증 필요", css:"cred-low" };
+  if(score >= 85) return { label:t('cred_high'), css:"cred-high" };
+  if(score >= 65) return { label:t('cred_med'), css:"cred-med" };
+  return { label:t('cred_low'), css:"cred-low" };
 }
 
 let INCIDENTS = [];
@@ -27,7 +27,7 @@ async function loadData(){
     INCIDENTS = await res.json();
     renderAll();
   }catch(err){
-    main.innerHTML = `<div class="error">데이터를 불러오는 중 오류가 발생했습니다: ${err.message}</div>`;
+    main.innerHTML = `<div class="error">${t('error', err.message)}</div>`;
   }
 }
 
@@ -41,7 +41,7 @@ function renderFilters(){
   renderFilterGroup('filter-asset', 'asset', uniqueCounts('asset'));
   renderFilterGroup('filter-attack', 'attack_type', uniqueCounts('attack_type'));
   renderFilterGroup('filter-country', 'country', uniqueCounts('country'));
-  renderFilterGroup('filter-severity', 'severity', uniqueCounts('severity'), SEVERITY_LABEL);
+  renderFilterGroup('filter-severity', 'severity', uniqueCounts('severity'), { high:sevLabel('high'), medium:sevLabel('medium'), low:sevLabel('low') });
 }
 
 function renderFilterGroup(elId, key, counts, labelMap){
@@ -83,10 +83,10 @@ function renderStats(){
   el.innerHTML = `
     <div class="stat">
       <div class="num">${total}</div>
-      <div class="label">전체 사고 건수</div>
+      <div class="label">${t('stat_total')}</div>
     </div>
     <div class="stat" style="flex:2">
-      <div class="label" style="margin-bottom:8px;">자산유형별 상위 3</div>
+      <div class="label" style="margin-bottom:8px;">${t('stat_top_assets')}</div>
       ${topAssets.map(([name,count]) => `
         <div class="bar-row">
           <span style="width:150px; color:var(--text);">${name}</span>
@@ -114,7 +114,7 @@ function renderHeatmap(){
           const n = counts[asset][sev];
           const bg = n === 0 ? null : `var(--sev-${SEVERITY_VAR[sev]})`;
           return `<div class="heat-cell${n===0?' empty':''}" style="${bg?`background:${bg}`:''}"
-                       title="${asset} · ${SEVERITY_LABEL[sev]}: ${n}건"
+                       title="${asset} · ${sevLabel(sev)}: ${n}건"
                        onclick="${n>0?`filters.asset='${asset}';filters.severity='${sev}';renderAll();`:''}">${n>0?n:''}</div>`;
         }).join('')}
       </div>
@@ -124,14 +124,14 @@ function renderHeatmap(){
       <span><i style="background:var(--sev-low)"></i>낮음</span>
       <span><i style="background:var(--sev-med)"></i>중간</span>
       <span><i style="background:var(--sev-high)"></i>높음</span>
-      <span style="color:var(--text-dim)">(칸을 클릭하면 필터링됩니다)</span>
+      <span style="color:var(--text-dim)">${t('heatmap_hint')}</span>
     </div>
   `;
 }
 
 function renderList(){
   const list = filteredIncidents().sort((a,b) => b.date.localeCompare(a.date));
-  document.getElementById('list-count').textContent = `${list.length}건 표시 중`;
+  document.getElementById('list-count').textContent = t('list_count', list.length);
   const el = document.getElementById('incident-list');
   el.innerHTML = '';
   list.forEach(i => {
@@ -152,7 +152,7 @@ function renderList(){
 function renderDetail(){
   const el = document.getElementById('detail');
   const i = INCIDENTS.find(x => x.id === selectedId);
-  if(!i){ el.innerHTML = '<div class="empty">사고를 선택하면<br>상세 정보와 관련 규제가<br>여기에 표시됩니다</div>'; return; }
+  if(!i){ el.innerHTML = `<div class="empty">${t('detail_empty')}</div>`; return; }
   const cred = credibilityTier(i.credibility_score);
   el.innerHTML = `
     <div class="id">${i.id}</div>
@@ -161,23 +161,23 @@ function renderDetail(){
       <span class="tag">${i.asset}</span>
       <span class="tag">${i.attack_type}</span>
       <span class="tag">${i.country}</span>
-      <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">심각도: ${SEVERITY_LABEL[i.severity]}</span>
+      <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">${sevLabel(i.severity)}</span>
       <span class="tag">${i.date}</span>
     </div>
     <p class="desc">${i.desc}</p>
     <div class="fact-grid">
-      <div class="fact-label">피해 규모</div><div class="fact-value">${i.damage_scale}</div>
-      <div class="fact-label">신뢰도</div>
+      <div class="fact-label">${t('fact_damage')}</div><div class="fact-value">${i.damage_scale}</div>
+      <div class="fact-label">${t('fact_credibility')}</div>
       <div class="fact-value">
-        <span class="cred-badge ${cred.css}">${i.credibility_score}점 · ${cred.label}</span>
+        <span class="cred-badge ${cred.css}">${i.credibility_score} · ${cred.label}</span>
       </div>
-      <div class="fact-label">원문 언어</div>
-      <div class="fact-value">${i.origin_language}${i.translated ? ' <span class="translated-tag">번역됨</span>' : ''}</div>
-      <div class="fact-label">출처</div>
+      <div class="fact-label">${t('fact_language')}</div>
+      <div class="fact-value">${i.origin_language}${i.translated ? ` <span class="translated-tag">${t('translated_tag')}</span>` : ''}</div>
+      <div class="fact-label">${t('fact_source')}</div>
       <div class="fact-value">${i.source.url ? `<a href="${i.source.url}" target="_blank" rel="noopener">${i.source.name}</a>` : i.source.name}</div>
     </div>
     <div class="reg-block">
-      <h4>관련 IMO / IACS 통제 항목</h4>
+      <h4>${t('regs_header')}</h4>
       ${i.regs.map(r => `
         <div class="reg-item">
           <div class="code">${r.code}</div>

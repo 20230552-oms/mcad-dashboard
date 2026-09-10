@@ -12,11 +12,15 @@
 <body>
 
 <header>
-  <h1>해양 사이버보안사고 대시보드</h1>
-  <p>자산유형별 위협 가시화 · IMO/IACS 규제 연계</p>
+  <h1 data-i18n="site_title"></h1>
+  <p data-i18n="dashboard_subtitle"></p>
   <nav class="topnav">
-    <a href="index.html" class="active">대시보드</a>
-    <a href="stats.html">통계</a>
+    <a href="index.html" class="active" data-i18n="nav_dashboard"></a>
+    <a href="stats.html" data-i18n="nav_stats"></a>
+    <span class="lang-toggle">
+      <button data-lang="ko">KO</button>
+      <button data-lang="en">EN</button>
+    </span>
   </nav>
 </header>
 
@@ -24,38 +28,37 @@
 
 <div class="layout">
   <aside>
-    <h2>자산 유형</h2>
+    <h2 data-i18n="filter_asset"></h2>
     <div class="filter-group" id="filter-asset"></div>
-    <h2>공격 유형</h2>
+    <h2 data-i18n="filter_attack"></h2>
     <div class="filter-group" id="filter-attack"></div>
-    <h2>피해 국가</h2>
+    <h2 data-i18n="filter_country"></h2>
     <div class="filter-group" id="filter-country"></div>
-    <h2>심각도</h2>
+    <h2 data-i18n="filter_severity"></h2>
     <div class="filter-group" id="filter-severity"></div>
-    <button class="reset-btn" onclick="resetFilters()">필터 초기화</button>
+    <button class="reset-btn" data-i18n="reset_filters" onclick="resetFilters()"></button>
   </aside>
 
   <main>
     <div class="heatmap-block">
-      <h2>자산유형 × 심각도</h2>
+      <h2 data-i18n="heatmap_title"></h2>
       <div id="heatmap"></div>
     </div>
 
     <div class="list-head">
       <span id="list-count"></span>
     </div>
-    <div id="incident-list"><div class="loading">데이터를 불러오는 중...</div></div>
+    <div id="incident-list"><div class="loading" data-i18n="loading"></div></div>
   </main>
 
   <div class="detail" id="detail">
-    <div class="empty">사고를 선택하면<br>상세 정보와 관련 규제가<br>여기에 표시됩니다</div>
+    <div class="empty" data-i18n="detail_empty"></div>
   </div>
 </div>
 
-<footer>
-  데이터 출처: <a href="https://www.nhlstenden.com/en/maritime-cyber-attack-database" target="_blank" rel="noopener">NHL Stenden — Maritime Cyber Attack Database (MCAD)</a>. 위 데이터는 연구 목적으로 정규화·가공되었습니다.
-</footer>
+<footer id="site-footer"></footer>
 
+<script src="i18n.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
