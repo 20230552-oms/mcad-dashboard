@@ -29,7 +29,7 @@ body{
 ::-webkit-scrollbar-thumb:hover{ background: var(--accent); }
 
 header{
-  display:flex; align-items:baseline; gap:16px;
+  display:flex; align-items:center; gap:16px;
   padding: 22px 28px 18px;
   border-bottom: 1px solid var(--line);
 }
@@ -38,6 +38,13 @@ header h1{
 }
 header h1::before{ content: "⚓  "; opacity:0.7; }
 header p{ margin:0; color: var(--text-dim); font-size: 13px; }
+.topnav{ margin-left:auto; display:flex; gap:4px; }
+.topnav a{
+  color: var(--text-dim); text-decoration:none; font-size:13px;
+  padding: 6px 12px; border-radius:6px; transition: background 0.15s ease, color 0.15s ease;
+}
+.topnav a:hover{ background: var(--panel); color: var(--text); }
+.topnav a.active{ background: var(--panel-2); color: var(--accent); }
 
 .stats{
   display:flex; gap:0; padding: 14px 28px; border-bottom: 1px solid var(--line);
@@ -136,6 +143,33 @@ main{ flex:1; overflow-y:auto; padding: 18px 24px; }
 .loading, .error{ padding: 40px; text-align:center; color: var(--text-dim); }
 .error{ color: var(--sev-high); }
 
+/* 통계 페이지 */
+.stats-page{ flex:1; padding: 22px 28px; overflow-y:auto; }
+.panel{
+  background: var(--panel); border-radius:10px; padding: 18px 20px;
+  margin-bottom: 20px; border: 1px solid var(--line);
+}
+.panel-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 14px; }
+.panel-head h2{ font-size: 14px; margin:0; font-weight:600; }
+.panel-note{ font-size: 12px; color: var(--text-dim); }
+.panel-cols{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel-cols .panel{ margin-bottom:0; }
+
+.data-table{ width:100%; border-collapse:collapse; margin-top: 16px; font-size: 12.5px; }
+.data-table th{
+  text-align:left; color: var(--text-dim); font-weight:500; font-size:11px;
+  padding: 6px 8px; border-bottom: 1px solid var(--line);
+}
+.data-table td{ padding: 7px 8px; border-bottom: 1px solid var(--line); }
+.data-table tr:last-child td{ border-bottom:none; }
+.data-table td:nth-child(2), .data-table td:nth-child(3),
+.data-table th:nth-child(2), .data-table th:nth-child(3){ text-align:right; color: var(--text-dim); }
+
+@media (max-width: 860px){
+  .panel-cols{ grid-template-columns: 1fr; }
+  .stats-page{ padding: 14px 18px; }
+}
+
 /* 자산유형 x 심각도 히트맵 */
 .heatmap-block{ margin-bottom: 22px; }
 .heatmap-block h2{ font-size: 12px; color: var(--text-dim); font-weight:600; margin: 0 0 10px; }
@@ -167,7 +201,8 @@ footer a{ color: var(--text-dim); }
 
 /* 모바일 대응: 좁은 화면에서는 3단 레이아웃을 세로로 쌓음 */
 @media (max-width: 860px){
-  header{ flex-direction:column; gap:2px; padding: 16px 18px 12px; }
+  header{ flex-direction:column; align-items:flex-start; gap:8px; padding: 16px 18px 12px; }
+  .topnav{ margin-left:0; }
   .stats{ flex-direction:column; gap: 14px; padding: 14px 18px; }
   .stat{ border-left:none; padding-left:0; }
   .stat + .stat{ border-top: 1px solid var(--line); padding-top: 12px; }
