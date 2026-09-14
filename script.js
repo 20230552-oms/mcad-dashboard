@@ -50,7 +50,8 @@ function renderFilterGroup(elId, key, counts, labelMap){
   Object.entries(counts).forEach(([value, count]) => {
     const chip = document.createElement('div');
     chip.className = 'chip' + (filters[key] === value ? ' active' : '');
-    chip.innerHTML = `<span>${labelMap ? labelMap[value] : value}</span><span class="count">${count}</span>`;
+    const label = labelMap ? labelMap[value] : fv(key, value);
+    chip.innerHTML = `<span>${label}</span><span class="count">${count}</span>`;
     chip.onclick = () => {
       filters[key] = filters[key] === value ? null : value;
       renderAll();
@@ -89,7 +90,7 @@ function renderStats(){
       <div class="label" style="margin-bottom:8px;">${t('stat_top_assets')}</div>
       ${topAssets.map(([name,count]) => `
         <div class="bar-row">
-          <span style="width:150px; color:var(--text);">${name}</span>
+          <span style="width:150px; color:var(--text);">${fv('asset', name)}</span>
           <div class="bar-track"><div class="bar-fill" style="width:${(count/max*100)}%"></div></div>
           <span style="width:16px; text-align:right;">${count}</span>
         </div>
@@ -108,22 +109,22 @@ function renderHeatmap(){
 
   el.innerHTML = assets.map(asset => `
     <div class="heat-row">
-      <div class="heat-label">${asset}</div>
+      <div class="heat-label">${fv('asset', asset)}</div>
       <div class="heat-cells">
         ${severities.map(sev => {
           const n = counts[asset][sev];
           const bg = n === 0 ? null : `var(--sev-${SEVERITY_VAR[sev]})`;
           return `<div class="heat-cell${n===0?' empty':''}" style="${bg?`background:${bg}`:''}"
-                       title="${asset} · ${sevLabel(sev)}: ${n}건"
+                       title="${fv('asset', asset)} · ${sevLabel(sev)}: ${n}건"
                        onclick="${n>0?`filters.asset='${asset}';filters.severity='${sev}';renderAll();`:''}">${n>0?n:''}</div>`;
         }).join('')}
       </div>
     </div>
   `).join('') + `
     <div class="heat-legend">
-      <span><i style="background:var(--sev-low)"></i>낮음</span>
-      <span><i style="background:var(--sev-med)"></i>중간</span>
-      <span><i style="background:var(--sev-high)"></i>높음</span>
+      <span><i style="background:var(--sev-low)"></i>${sevLabel('low')}</span>
+      <span><i style="background:var(--sev-med)"></i>${sevLabel('medium')}</span>
+      <span><i style="background:var(--sev-high)"></i>${sevLabel('high')}</span>
       <span style="color:var(--text-dim)">${t('heatmap_hint')}</span>
     </div>
   `;
@@ -139,7 +140,7 @@ function renderList(){
     row.className = 'incident' + (i.id === selectedId ? ' selected' : '');
     row.innerHTML = `
       <div class="sev-dot" style="background:var(--sev-${SEVERITY_VAR[i.severity]})"></div>
-      <div class="asset">${i.asset}</div>
+      <div class="asset">${fv('asset', i.asset)}</div>
       <div class="title">${i.title}</div>
       <div class="id">${i.id}</div>
       <div class="date">${i.date}</div>
@@ -158,9 +159,9 @@ function renderDetail(){
     <div class="id">${i.id}</div>
     <h3>${i.title}</h3>
     <div class="meta-row">
-      <span class="tag">${i.asset}</span>
-      <span class="tag">${i.attack_type}</span>
-      <span class="tag">${i.country}</span>
+      <span class="tag">${fv('asset', i.asset)}</span>
+      <span class="tag">${fv('attack_type', i.attack_type)}</span>
+      <span class="tag">${fv('country', i.country)}</span>
       <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">${sevLabel(i.severity)}</span>
       <span class="tag">${i.date}</span>
     </div>
@@ -172,7 +173,7 @@ function renderDetail(){
         <span class="cred-badge ${cred.css}">${i.credibility_score} · ${cred.label}</span>
       </div>
       <div class="fact-label">${t('fact_language')}</div>
-      <div class="fact-value">${i.origin_language}${i.translated ? ` <span class="translated-tag">${t('translated_tag')}</span>` : ''}</div>
+      <div class="fact-value">${fv('origin_language', i.origin_language)}${i.translated ? ` <span class="translated-tag">${t('translated_tag')}</span>` : ''}</div>
       <div class="fact-label">${t('fact_source')}</div>
       <div class="fact-value">${i.source.url ? `<a href="${i.source.url}" target="_blank" rel="noopener">${i.source.name}</a>` : i.source.name}</div>
     </div>

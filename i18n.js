@@ -86,6 +86,58 @@ const LANG_KEY = 'mcad_lang';
 let currentLang = localStorage.getItem(LANG_KEY) || 'ko';
 if(!I18N[currentLang]) currentLang = 'ko';
 
+// ---------------------------------------------------------
+// 사고 데이터의 "고정된 값" 필드(자산유형/공격유형/국가/원문언어)는
+// 종류가 한정돼 있어서 여기서 직접 영어로 매핑합니다.
+// 반면 사고 제목·설명·피해규모·출처명처럼 자유 서술형 텍스트는
+// 종류가 무한하기 때문에 실제 번역 파이프라인이 필요합니다 — 그
+// 필드들은 이 사전에 없으면 원문(한국어) 그대로 표시됩니다.
+// ---------------------------------------------------------
+const FIELD_I18N_EN = {
+  asset: {
+    "항해장비(ECDIS/GPS)": "Navigation Equipment (ECDIS/GPS)",
+    "항만 인프라(TOS)": "Port Infrastructure (TOS)",
+    "통신장비(VSAT)": "Communication Equipment (VSAT)",
+    "선박 OT(엔진제어)": "Ship OT (Engine Control)",
+    "IT 시스템(사내망)": "IT Systems (Corporate Network)",
+    "항만 인프라(크레인 제어)": "Port Infrastructure (Crane Control)",
+    "항해장비(AIS)": "Navigation Equipment (AIS)",
+    "항만 인프라(하역시스템)": "Port Infrastructure (Cargo Handling)"
+  },
+  attack_type: {
+    "GPS/AIS 스푸핑": "GPS/AIS Spoofing",
+    "랜섬웨어": "Ransomware",
+    "무단 원격접근": "Unauthorized Remote Access",
+    "악성코드 감염": "Malware Infection",
+    "피싱/자격증명 탈취": "Phishing / Credential Theft"
+  },
+  country: {
+    "우크라이나 인근 해역": "Near Ukraine",
+    "대한민국": "South Korea",
+    "파나마": "Panama",
+    "싱가포르": "Singapore",
+    "일본": "Japan",
+    "네덜란드": "Netherlands",
+    "덴마크": "Denmark",
+    "이란 인근 해역": "Near Iran",
+    "베트남": "Vietnam",
+    "인도네시아": "Indonesia"
+  },
+  origin_language: {
+    "영어": "English",
+    "네덜란드어": "Dutch",
+    "베트남어": "Vietnamese",
+    "인도네시아어": "Indonesian"
+  }
+};
+
+// fv(field, value): 카테고리 필드 값을 현재 언어로 변환. 사전에 없으면 원문 그대로.
+function fv(field, value){
+  if(currentLang === 'ko') return value;
+  const dict = FIELD_I18N_EN[field];
+  return (dict && dict[value]) || value;
+}
+
 function t(key, ...args){
   const entry = I18N[currentLang][key];
   if(typeof entry === 'function') return entry(...args);

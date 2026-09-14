@@ -11,10 +11,11 @@ async function loadData(){
   }
 }
 
-function countBy(key){
+function countBy(key, translate){
   const counts = {};
   INCIDENTS.forEach(i => { counts[i[key]] = (counts[i[key]] || 0) + 1; });
-  return Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  return translate ? entries.map(([name, n]) => [fv(key, name), n]) : entries;
 }
 
 function renderBarChart(containerId, tableId, entries, colLabel){
@@ -86,8 +87,8 @@ function renderTimeSeries(){
 
 function renderAll(){
   renderTimeSeries();
-  renderBarChart('country-chart', 'country-table', countBy('country'), t('th_country'));
-  renderBarChart('attack-chart', 'attack-table', countBy('attack_type'), t('th_attack'));
+  renderBarChart('country-chart', 'country-table', countBy('country', true), t('th_country'));
+  renderBarChart('attack-chart', 'attack-table', countBy('attack_type', true), t('th_attack'));
 }
 
 document.addEventListener('DOMContentLoaded', loadData);
