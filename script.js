@@ -116,7 +116,7 @@ function renderHeatmap(){
           const bg = n === 0 ? null : `var(--sev-${SEVERITY_VAR[sev]})`;
           return `<div class="heat-cell${n===0?' empty':''}" style="${bg?`background:${bg}`:''}"
                        title="${fv('asset', asset)} · ${sevLabel(sev)}: ${n}건"
-                       onclick="${n>0?`filters.asset='${asset}';filters.severity='${sev}';renderAll();`:''}">${n>0?n:''}</div>`;
+                       onclick="${n>0?`filters={asset:'${asset}',country:null,severity:'${sev}',attack_type:null};renderAll();`:''}">${n>0?n:''}</div>`;
         }).join('')}
       </div>
     </div>
@@ -132,6 +132,17 @@ function renderHeatmap(){
 
 function renderList(){
   const list = filteredIncidents().sort((a,b) => b.date.localeCompare(a.date));
+
+  // 필터 결과에 맞춰 상세 패널도 함께 갱신합니다:
+  // - 필터링 결과가 정확히 1건이면 클릭 없이도 바로 상세 내용을 보여줍니다
+  //   (히트맵 셀처럼 1건짜리 필터를 클릭했을 때 오른쪽이 비어 보이던 문제 수정)
+  // - 이전에 선택했던 사고가 더 이상 필터 결과에 없으면 선택을 해제합니다
+  if(list.length === 1){
+    selectedId = list[0].id;
+  } else if(selectedId && !list.some(x => x.id === selectedId)){
+    selectedId = null;
+  }
+
   document.getElementById('list-count').textContent = t('list_count', list.length);
   const el = document.getElementById('incident-list');
   el.innerHTML = '';
