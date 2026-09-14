@@ -141,7 +141,7 @@ function renderList(){
     row.innerHTML = `
       <div class="sev-dot" style="background:var(--sev-${SEVERITY_VAR[i.severity]})"></div>
       <div class="asset">${fv('asset', i.asset)}</div>
-      <div class="title">${i.title}</div>
+      <div class="title">${tf(i.title)}</div>
       <div class="id">${i.id}</div>
       <div class="date">${i.date}</div>
     `;
@@ -157,7 +157,7 @@ function renderDetail(){
   const cred = credibilityTier(i.credibility_score);
   el.innerHTML = `
     <div class="id">${i.id}</div>
-    <h3>${i.title}</h3>
+    <h3>${tf(i.title)}</h3>
     <div class="meta-row">
       <span class="tag">${fv('asset', i.asset)}</span>
       <span class="tag">${fv('attack_type', i.attack_type)}</span>
@@ -165,9 +165,9 @@ function renderDetail(){
       <span class="tag" style="color:var(--sev-${SEVERITY_VAR[i.severity]})">${sevLabel(i.severity)}</span>
       <span class="tag">${i.date}</span>
     </div>
-    <p class="desc">${i.desc}</p>
+    <p class="desc">${tf(i.desc)}</p>
     <div class="fact-grid">
-      <div class="fact-label">${t('fact_damage')}</div><div class="fact-value">${i.damage_scale}</div>
+      <div class="fact-label">${t('fact_damage')}</div><div class="fact-value">${tf(i.damage_scale)}</div>
       <div class="fact-label">${t('fact_credibility')}</div>
       <div class="fact-value">
         <span class="cred-badge ${cred.css}">${i.credibility_score} · ${cred.label}</span>
@@ -175,14 +175,14 @@ function renderDetail(){
       <div class="fact-label">${t('fact_language')}</div>
       <div class="fact-value">${fv('origin_language', i.origin_language)}${i.translated ? ` <span class="translated-tag">${t('translated_tag')}</span>` : ''}</div>
       <div class="fact-label">${t('fact_source')}</div>
-      <div class="fact-value">${i.source.url ? `<a href="${i.source.url}" target="_blank" rel="noopener">${i.source.name}</a>` : i.source.name}</div>
+      <div class="fact-value">${i.source.url ? `<a href="${i.source.url}" target="_blank" rel="noopener">${tf(i.source.name)}</a>` : tf(i.source.name)}</div>
     </div>
     <div class="reg-block">
       <h4>${t('regs_header')}</h4>
       ${i.regs.map(r => `
         <div class="reg-item">
           <div class="code">${r.code}</div>
-          <div class="desc">${r.desc}</div>
+          <div class="desc">${tf(r.desc)}</div>
         </div>
       `).join('')}
     </div>

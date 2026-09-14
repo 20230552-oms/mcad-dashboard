@@ -138,6 +138,15 @@ function fv(field, value){
   return (dict && dict[value]) || value;
 }
 
+// tf(field): data.json에 { ko:"...", en:"..." } 형태로 저장된 자유 서술형
+// 필드(제목/설명/피해규모/출처명/규제설명)에서 현재 언어 값을 꺼냅니다.
+// 해당 언어가 아직 채워지지 않았으면 한국어로 자동 대체됩니다.
+function tf(field){
+  if(field == null) return '';
+  if(typeof field === 'string') return field; // 과거 형식(단일 문자열) 호환
+  return field[currentLang] || field.ko || Object.values(field)[0] || '';
+}
+
 function t(key, ...args){
   const entry = I18N[currentLang][key];
   if(typeof entry === 'function') return entry(...args);
