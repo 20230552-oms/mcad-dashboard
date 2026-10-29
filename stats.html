@@ -3,54 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>통계 — 해양 사이버보안사고 대시보드</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>통계</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
-<body>
+<body data-page="stats" data-title-key="nav_stats">
 
-<header>
-  <h1 data-i18n="site_title"></h1>
-  <p data-i18n="stats_subtitle"></p>
-  <nav class="topnav">
-    <a href="index.html" data-i18n="nav_dashboard"></a>
-    <a href="stats.html" class="active" data-i18n="nav_stats"></a>
-    <span class="lang-toggle">
-      <button data-lang="ko">KO</button>
-      <button data-lang="en">EN</button>
-    </span>
-  </nav>
-</header>
+<main class="page" id="stats-root">
+  <div class="panel-head">
+    <div>
+      <h2 style="margin:0" data-t="nav_stats"></h2>
+      <p class="sub" data-t="stats_sub"></p>
+    </div>
+    <div class="stats-controls">
+      <span class="small muted" data-t="st_scope"></span>
+      <div class="seg" id="scope">
+        <button type="button" data-scope="all" data-t="st_scope_all"></button>
+        <button type="button" data-scope="asia" data-t="st_scope_asia"></button>
+      </div>
+      <button type="button" class="btn" id="csv" data-t="csv_export"></button>
+    </div>
+  </div>
+  <p class="note" style="margin:0 0 16px" data-t="st_note"></p>
 
-<main class="stats-page">
   <section class="panel">
     <div class="panel-head">
-      <h2 data-i18n="ts_title"></h2>
-      <span class="panel-note" id="total-count"></span>
+      <div><h2 data-t="st_ts"></h2><p class="sub" data-t="st_ts_sub"></p></div>
+      <div class="stats-controls">
+        <div class="seg" id="ts-mode">
+          <button type="button" data-mode="year" data-t="st_year"></button>
+          <button type="button" data-mode="month" data-t="st_month"></button>
+        </div>
+        <label class="small muted" for="ts-from" data-t="st_from"></label>
+        <select id="ts-from" style="width:auto"></select>
+      </div>
     </div>
-    <div id="timeseries"></div>
+    <div id="ts"></div>
+    <div class="legend" id="ts-legend"></div>
+    <p class="note" id="ts-note"></p>
   </section>
 
-  <div class="panel-cols">
-    <section class="panel">
-      <div class="panel-head"><h2 data-i18n="country_title"></h2></div>
+  <section class="panel">
+    <h2 data-t="st_country"></h2>
+    <p class="sub" data-t="st_country_sub"></p>
+    <div class="grid-2">
       <div id="country-chart"></div>
-      <table class="data-table" id="country-table"></table>
-    </section>
+      <div class="table-wrap" style="max-height:420px;overflow-y:auto"><table class="data" id="country-table"></table></div>
+    </div>
+  </section>
 
+  <div class="grid-2">
     <section class="panel">
-      <div class="panel-head"><h2 data-i18n="attack_title"></h2></div>
+      <h2 data-t="st_attack"></h2>
+      <p class="sub" data-t="st_attack_sub"></p>
       <div id="attack-chart"></div>
-      <table class="data-table" id="attack-table"></table>
+      <div class="table-wrap"><table class="data" id="attack-table"></table></div>
+    </section>
+    <section class="panel">
+      <h2 data-t="st_asset"></h2>
+      <p class="sub" data-t="st_asset_sub"></p>
+      <div id="asset-chart"></div>
+      <div class="table-wrap"><table class="data" id="asset-table"></table></div>
     </section>
   </div>
+  <p class="note" data-t="share_note"></p>
 </main>
 
-<footer id="site-footer"></footer>
-
-<script src="i18n.js?v=3"></script>
-<script src="stats.js?v=3"></script>
+<script src="js/i18n.js?v=10"></script>
+<script src="js/dict.js?v=10"></script>
+<script src="js/common.js?v=10"></script>
+<script src="js/stats.js?v=10"></script>
 </body>
 </html>

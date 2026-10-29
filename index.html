@@ -3,62 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>해양 사이버보안사고 대시보드</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>해양 사이버사고 대시보드</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
-<body>
+<body data-page="dashboard">
 
-<header>
-  <h1 data-i18n="site_title"></h1>
-  <p data-i18n="dashboard_subtitle"></p>
-  <nav class="topnav">
-    <a href="index.html" class="active" data-i18n="nav_dashboard"></a>
-    <a href="stats.html" data-i18n="nav_stats"></a>
-    <span class="lang-toggle">
-      <button data-lang="ko">KO</button>
-      <button data-lang="en">EN</button>
-    </span>
-  </nav>
-</header>
-
-<div class="stats" id="stats"></div>
+<div class="kpis" id="kpis"></div>
 
 <div class="layout">
-  <aside>
-    <h2 data-i18n="filter_asset"></h2>
-    <div class="filter-group" id="filter-asset"></div>
-    <h2 data-i18n="filter_attack"></h2>
-    <div class="filter-group" id="filter-attack"></div>
-    <h2 data-i18n="filter_country"></h2>
-    <div class="filter-group" id="filter-country"></div>
-    <h2 data-i18n="filter_severity"></h2>
-    <div class="filter-group" id="filter-severity"></div>
-    <button class="reset-btn" data-i18n="reset_filters" onclick="resetFilters()"></button>
+  <aside id="filters" aria-label="filters">
+    <div class="loading" data-t="loading"></div>
   </aside>
 
   <main>
-    <div class="heatmap-block">
-      <h2 data-i18n="heatmap_title"></h2>
-      <div id="heatmap"></div>
-    </div>
+    <section class="panel" aria-labelledby="heat-h">
+      <h2 id="heat-h" data-t="heat_title"></h2>
+      <p class="sub" data-t="heat_sub"></p>
+      <div class="heatmap-wrap" id="heatmap"></div>
+    </section>
 
-    <div class="list-head">
-      <span id="list-count"></span>
+    <div class="toolbar">
+      <label class="sr-only" for="q" data-t="f_search_ph"></label>
+      <input type="search" id="q" data-t-ph="f_search_ph">
+      <div class="seg" id="sort">
+        <button type="button" data-sort="new" data-t="sort_new"></button>
+        <button type="button" data-sort="old" data-t="sort_old"></button>
+      </div>
+      <button type="button" class="btn" id="csv" data-t="csv_export"></button>
+      <button type="button" class="btn" id="reset" data-t="reset"></button>
     </div>
-    <div id="incident-list"><div class="loading" data-i18n="loading"></div></div>
+    <div class="active-filters" id="active-filters"></div>
+    <div class="list-head small muted" id="list-count"></div>
+    <div id="incident-list"></div>
+    <div class="pager" id="pager"></div>
   </main>
 
-  <div class="detail" id="detail">
-    <div class="empty" data-i18n="detail_empty"></div>
-  </div>
+  <aside class="detail" id="detail" aria-live="polite"></aside>
 </div>
 
-<footer id="site-footer"></footer>
-
-<script src="i18n.js?v=3"></script>
-<script src="script.js?v=4"></script>
+<script src="js/i18n.js?v=10"></script>
+<script src="js/dict.js?v=10"></script>
+<script src="js/config.js?v=10"></script>
+<script src="js/common.js?v=10"></script>
+<script src="js/dashboard.js?v=10"></script>
 </body>
 </html>
